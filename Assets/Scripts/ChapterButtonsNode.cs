@@ -1,12 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using DG.Tweening;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class ChapterButtonsNode : MonoBehaviour
 {
@@ -15,9 +14,14 @@ public class ChapterButtonsNode : MonoBehaviour
     [SerializeField] private ChapterButton buttonPrefab;
     [SerializeField] private ScrollView scrollView;
     [SerializeField] private Scrollbar scrollbar;
+    [SerializeField] private Button languageButton;
+    [SerializeField] private TextMeshProUGUI languageButtonLabel;
+    [SerializeField] private Button exitButton;
 
     private List<ChapterButton> _buttons = new();
     private int _previousChapterNumber = 1;
+    private bool _isEnglish;
+
     private const float DurationAutoScroll = 0.25f;
 
     private void Start() 
@@ -30,6 +34,15 @@ public class ChapterButtonsNode : MonoBehaviour
             _buttons.Add(chapterButton);
         });
         SwitchCurrentChapter(_buttons[0]);
+
+        languageButton.onClick.AddListener(OnChangeLanguage);
+        exitButton.onClick.AddListener(OnExit);
+    }
+
+    private void OnDestroy() 
+    {
+        languageButton.onClick.RemoveListener(OnChangeLanguage);
+        exitButton.onClick.RemoveListener(OnExit);
     }
 
     private void SwitchCurrentChapter(ChapterButton selectedButton)
@@ -48,5 +61,12 @@ public class ChapterButtonsNode : MonoBehaviour
         _previousChapterNumber = targetChapterNumber;
     }
 
-    private void ChangeLanguage(int i) => LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[i];
+    private void OnChangeLanguage()
+    {
+        _isEnglish = !_isEnglish;
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[_isEnglish ? 1 : 0];
+        languageButtonLabel.text = _isEnglish ? "Eng" : "Ru";
+    }
+
+    private void OnExit() => Application.Quit();
 }
