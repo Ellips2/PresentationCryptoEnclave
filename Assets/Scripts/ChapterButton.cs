@@ -5,18 +5,20 @@ using System.Text;
 using Unity.VisualScripting;
 using UnityEditor.Localization.Editor;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 public class ChapterButton : MonoBehaviour
 {
     [SerializeField] private Button button;
     [SerializeField] private Image canSelectIcon;
-    [SerializeField] private LocalizationAsset localizationAsset;
+    [SerializeField] private LocalizeStringEvent localizedStringEvent;
+
 
     public Button Button => button;
-
-    private Transform showTarget;
     public event Action<ChapterButton> OnClick;
+
 
     void OnDestroy() 
     {
@@ -26,9 +28,10 @@ public class ChapterButton : MonoBehaviour
     public void Init(Transform chapter)
     {
         button.name = $"Button {chapter.name}";
-        showTarget = chapter;
         button.onClick.AddListener(ShowChapter);
-        localizationAsset.SetLocalizedString("", "");
+
+        localizedStringEvent.StringReference.SetReference("UI", chapter.name.ToLower());
+        localizedStringEvent.RefreshString();
     }
 
     public void ChangeSelectStatus(bool state) => canSelectIcon.enabled = state;
