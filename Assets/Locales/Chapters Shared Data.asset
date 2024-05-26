@@ -24,11 +24,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 81407373312
-    m_Key: New Entry 2
+    m_Key: aboutPurpose
     m_Metadata:
       m_Items: []
   - m_Id: 6874591232
     m_Key: aboutMain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 278529015148544
+    m_Key: aboutRegistry
     m_Metadata:
       m_Items: []
   m_Metadata:

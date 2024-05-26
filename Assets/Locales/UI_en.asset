@@ -47,7 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10023384248320
-    m_Localized: Crypto-Enclave
+    m_Localized: 'Cryptoenclave '
     m_Metadata:
       m_Items: []
   references:
